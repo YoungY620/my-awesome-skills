@@ -163,7 +163,12 @@ standards or CI unless the user asks.
 - Direction: every variable has an explicit destination, consumer, and
   sensitivity; validate, redact, and assemble separately; unknown
   destinations are not forwarded by default; platform and agent credentials
-  are separated; user run identities and directories are isolated.
+  are separated; user run identities and directories are isolated. When a
+  configuration payload is passed through an environment variable, check its
+  size against the transport's limits (per-string ~128 KiB, argv+env
+  ~2 MiB, and platform-specific limits such as CI variables or
+  ConfigMap/Secret ~1 MiB); for large or unbounded inputs, use a file or a
+  structured spec instead of an env var.
 
 ### S11 — Commits stay minimal, public, and reproducible
 
