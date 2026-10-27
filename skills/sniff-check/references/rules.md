@@ -1,4 +1,4 @@
-# MR Sniff Review Standard
+# Sniff Check Review Standard
 
 This document is the single source of truth for MR review and merge checks.
 Records of explicit user feedback live in `references/observations.md`; this
@@ -21,7 +21,7 @@ preferences.
    real smoke; for refactors also prove behavior equivalence.
 5. Fix blockers first. If the change should be split, split branches and MRs
    instead of explaining the scope in review text.
-6. Only after these checks, prepend `MR_SNIFF_REVIEWED=create;` to the
+6. Only after these checks, prepend `SNIFF_CHECK_REVIEWED=create;` to the
    creation command. The marker records that the process was followed; it
    does not replace the actual checks.
 
@@ -37,7 +37,7 @@ preferences.
 4. Re-review the final state, focusing on complexity added during review,
    compatibility residue, contract changes, and verification gaps.
 5. Stop when a blocker exists. Only after passing, prepend
-   `MR_SNIFF_REVIEWED=merge;` to the merge command.
+   `SNIFF_CHECK_REVIEWED=merge;` to the merge command.
 6. Apply the same process before merging manually in the GitLab web UI; local
    hooks cannot intercept web actions.
 

@@ -6,7 +6,7 @@
   },
   "skills": [
     {
-      "dir": "mr-sniff",
+      "dir": "sniff-check",
       "summary_en": "MR review and merge-check standard: indivisible small MRs, contract and configuration hygiene, credential separation, and verification that proves the claimed behavior actually happened, with `create` / `merge` / `review` / `learn` workflows.",
       "summary_zh": "MR 评审与合并检查标准：不可拆分的小 MR、契约与配置卫生、凭证分离，以及证明声称行为真实发生的验证，包含 create / merge / review / learn 流程。"
     },
