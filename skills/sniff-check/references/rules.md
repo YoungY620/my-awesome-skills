@@ -1,35 +1,37 @@
 # Sniff Check Review Standard
 
-This document is the single source of truth for MR review and merge checks.
-Records of explicit user feedback live in `references/observations.md`; this
-document describes only currently effective preferences. Assistant
-suggestions, review-bot opinions, and assistant fix reports are not user
-preferences.
+This document is the single source of truth for pull request (PR) and merge
+request (MR) review and merge checks on any Git platform. PRs and MRs are both
+called requests below. Records of explicit user feedback live in
+`references/observations.md`; this document describes only currently effective
+preferences. Assistant suggestions, review-bot opinions, and assistant fix
+reports are not user preferences.
 
-## MR Workflow
+## Request Workflow
 
-### Before opening an MR
+### Before opening a request
 
-1. Review the split. Default: each MR is an indivisible small change; multiple
-   features go into separate MRs even when related, as long as they can be
-   reviewed and delivered independently. Never default to an all-in-one MR.
+1. Review the split. Default: each request is an indivisible small change;
+   multiple features go into separate requests even when related, as long as
+   they can be reviewed and delivered independently. Never default to an
+   all-in-one request.
 2. Base the branch on the latest target branch with a clean worktree and read
    the full diff.
 3. Check implementation, configuration, contracts, state, security, naming,
    verification, and delivery residue against the rules below.
 4. Run the narrowest relevant format checks, lint, tests, and at least one
    real smoke; for refactors also prove behavior equivalence.
-5. Fix blockers first. If the change should be split, split branches and MRs
-   instead of explaining the scope in review text.
+5. Fix blockers first. If the change should be split, split branches and
+   requests instead of explaining the scope in review text.
 6. Only after these checks, prepend `SNIFF_CHECK_REVIEWED=create;` to the
    creation command. The marker records that the process was followed; it
    does not replace the actual checks.
 
 ### Before merging
 
-1. Re-read the MR's final head, target branch, and full diff; never reuse
+1. Re-read the request's final head, target branch, and full diff; never reuse
    conclusions from older commits.
-2. Check the MR is still an indivisible small change with no independently
+2. Check the request is still an indivisible small change with no independently
    deliverable extras or unrelated edits.
 3. Collect all discussions, CI, and final verification evidence. Open
    applicable threads, failing checks, final images/digests, and real
@@ -38,30 +40,30 @@ preferences.
    compatibility residue, contract changes, and verification gaps.
 5. Stop when a blocker exists. Only after passing, prepend
    `SNIFF_CHECK_REVIEWED=merge;` to the merge command.
-6. Apply the same process before merging manually in the GitLab web UI; local
-   hooks cannot intercept web actions.
+6. Apply the same process before merging manually in any Git platform's web UI;
+   local hooks cannot intercept web actions.
 
 ### Review only
 
 Report blockers, verification gaps, and non-blocking suggestions. Each blocker
 must name the file or behavior, the violated rule, and the fix direction. Do
-not post GitLab comments, resolve human discussions, or change shared
+not post review comments, resolve human discussions, or change shared
 standards or CI unless the user asks.
 
 ## Core Sniff Rules
 
-### S01 — Indivisible small MRs; no all-in-one
+### S01 — Indivisible small requests; no all-in-one
 
 - Priority: highest.
-- Signals: one MR contains multiple independently reviewable/deliverable
-  features; an MR keeps expanding after the approach changes; "related
+- Signals: one request contains multiple independently reviewable/deliverable
+  features; a request keeps expanding after the approach changes; "related
   features" justifies a large diff.
-- Direction: split into indivisible small MRs by default. Features in the same
-  roadmap still get separate MRs when independently deliverable. Changes
-  required for one feature stay together so it builds, tests, and reads
+- Direction: split into indivisible small requests by default. Features in the
+  same roadmap still get separate requests when independently deliverable.
+  Changes required for one feature stay together so it builds, tests, and reads
   cleanly.
-- Review question: does this MR solve exactly one problem? Could any part ship
-  independently? If yes, why is it here?
+- Review question: does this request solve exactly one problem? Could any part
+  ship independently? If yes, why is it here?
 - Boundary: do not split mechanically by file or line count. Do not shred a
   feature into unverifiable fragments, and do not bundle features on "same
   semantics" grounds.
@@ -212,8 +214,8 @@ rollback path to the previous version or digest.
 ## Candidate Rules
 
 A new opinion starts here. It can be promoted to core after evidence from at
-least two independent MRs/sessions, or when the user states it as a general
-principle.
+least two independent request reviews/sessions, or when the user states it as
+a general principle.
 
 Each candidate records: status, emphasis count, independent scenarios,
 signals, direction, applicable boundaries, and evidence.
@@ -230,8 +232,8 @@ an implementation approach:
 3. A new pattern goes to candidates on first sighting; on recurrence, update
    the existing rule and its emphasis count instead of duplicating
    near-identical entries.
-4. Promote to core with evidence from at least two independent MRs/sessions,
-   or when the user states a general principle.
+4. Promote to core with evidence from at least two independent request
+   reviews/sessions, or when the user states a general principle.
 5. When the user refines, corrects, or retracts a rule, update the current
    definition and boundaries directly; keep the parts still binding and drop
    contradictory old wording.
@@ -242,9 +244,9 @@ an implementation approach:
 
 - Well-justified abstractions, defaults, thresholds, caches, compatibility
   layers, or platform changes are allowed.
-- The MR split preference is explicit: indivisible small MRs by default,
-  separate MRs for separate features, no all-in-one; do not re-expand an MR on
-  "cohesion" grounds.
+- The request split preference is explicit: indivisible small requests by
+  default, separate requests for separate features, no all-in-one; do not
+  re-expand a request on "cohesion" grounds.
 - Compatibility is judged by real adoption, migration cost, and whether the
   old mechanism will actually be removed.
 - Tests should answer the current question, not chase uninformative

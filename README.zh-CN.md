@@ -4,5 +4,5 @@
 
 ## 技能列表
 
-- **[sniff-check](skills/sniff-check/)** — MR 评审与合并检查标准：不可拆分的小 MR、契约与配置卫生、凭证分离，以及证明声称行为真实发生的验证，包含 create / merge / review / learn 流程。
+- **[sniff-check](skills/sniff-check/)** — 适用于所有 Git 平台的 PR/MR 评审与合并检查标准：不可拆分的小 PR/MR、契约与配置卫生、凭证分离，以及证明声称行为真实发生的验证，包含 create / merge / review / learn 流程。
 - **[course-textbook-builder](skills/course-textbook-builder/)** — 把一门课的全套材料（课件 PDF、讲课视频/音频、字幕转录、每讲 readings、作业与解答）转换成 textbook.cs161.org 风格的可精读在线教材：mdBook、可双语切换、部署到 GitHub Pages，并以真实渲染做核验。
