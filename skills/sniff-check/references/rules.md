@@ -9,6 +9,25 @@ reports are not user preferences.
 
 ## Request Workflow
 
+### Before implementation and when explaining a design
+
+Start with the user's requirements, relevant contracts, schema and recorded
+decisions. Check the actual implementation and its callers; do not infer the
+requirements from existing code or treat an assistant proposal as user approval.
+Separate confirmed requirements, current behavior, proposed changes and unknowns.
+
+For material architecture or cleanup, compare independently developed approaches
+from more than one angle, then cross-check the combined proposal. Look for missing
+consumers, lifecycle and failure paths, authority boundaries and unnecessary
+complexity. Revisit the proposal when evidence changes it. A code review after
+implementation does not replace this earlier design check.
+
+Technical explanations also need evidence: trace the named component to its
+callers, credentials, state and runtime role before making a claim. A filename or
+configuration entry alone does not prove that a process runs or a path is used.
+State what was checked and what remains unknown. Read-only consultation does not
+start a code-review delivery cycle.
+
 ### Before opening a request
 
 1. Review the split. Default: each request is an indivisible small change;
@@ -23,9 +42,35 @@ reports are not user preferences.
    real smoke; for refactors also prove behavior equivalence.
 5. Fix blockers first. If the change should be split, split branches and
    requests instead of explaining the scope in review text.
-6. Only after these checks, prepend `SNIFF_CHECK_REVIEWED=create;` to the
-   creation command. The marker records that the process was followed; it
-   does not replace the actual checks.
+6. Record the final head/base, rule version, independent findings and their
+   disposition, validation evidence and remaining gaps. This is a manual Agent
+   workflow, not a technical gate. Do not add hooks, wrapper commands, stage
+   environment markers or background review services to start it.
+
+### Independent cross-validation
+
+- R1: use a fresh-context reviewer to read the requirements, affected contracts
+  and complete diff for correctness, state, security, tests and regressions.
+- The author checks each finding against files and observable behavior, fixes
+  real issues and gives checkable reasons for false positives. Another model's
+  disagreement is not itself a reason to reject a finding.
+- R2: use another fresh context to check the repaired complete diff against
+  original requirements, decisions, all S01-S12 and D01-D02 rules, and R1's
+  disposition. Earlier findings are leads, not authority.
+- If R2 still finds a real blocker, repair it and allow one final complete R3.
+  If R3 still has a real blocker, stop delivery/merge, report it and reconsider
+  the design. Do not change prompts or retry indefinitely to obtain approval.
+- Reviewers are read-only: no edits, nested reviewers, PR writes or merges.
+  Supply the repo, head/base, full diff, rule and source versions, requirements
+  and test evidence. Do not give them the author's generation reasoning as facts.
+- Keep findings, evidence, impact and disposition. A successful process exit,
+  empty output, vote or "approve" is not proof of review. If independent review
+  is unavailable or authentication fails, report the gap.
+
+Review at independently deliverable request boundaries, not every commit. Reuse
+valid evidence when code and requirements are unchanged; otherwise check the
+impact. Before merge, the conclusion must cover the current complete diff and
+all applicable discussions, not an older approved commit.
 
 ### Before merging
 
@@ -38,8 +83,9 @@ reports are not user preferences.
    end-to-end results must be closed.
 4. Re-review the final state, focusing on complexity added during review,
    compatibility residue, contract changes, and verification gaps.
-5. Stop when a blocker exists. Only after passing, prepend
-   `SNIFF_CHECK_REVIEWED=merge;` to the merge command.
+5. Stop when a blocker exists. Follow the user's authorization and the hosting
+   platform's approval requirements; this skill does not grant permission to
+   merge or release.
 6. Apply the same process before merging manually in any Git platform's web UI;
    local hooks cannot intercept web actions.
 
@@ -49,6 +95,16 @@ Report blockers, verification gaps, and non-blocking suggestions. Each blocker
 must name the file or behavior, the violated rule, and the fix direction. Do
 not post review comments, resolve human discussions, or change shared
 standards or CI unless the user asks.
+
+### Design iteration reports
+
+Use Chinese unless the user requests another language. Lead with the conclusion
+and this iteration's changes, then address the user's feedback in order, keeping
+annotation correspondence when supplied. Explain the architecture, reasons,
+boundaries and tradeoffs without listing every implementation detail. Name the
+old approach being replaced or removed. Use a comparison table when it helps
+review acceptance behavior and regressions. Separate confirmed/proposed and
+implemented/verified/deployed states; a plan is not a completion report.
 
 ## Core Sniff Rules
 
@@ -67,6 +123,10 @@ standards or CI unless the user asks.
 - Boundary: do not split mechanically by file or line count. Do not shred a
   feature into unverifiable fragments, and do not bundle features on "same
   semantics" grounds.
+- When additions plus deletions exceed 1,000 lines, explicitly identify the
+  independently deliverable requirements, dependencies and acceptance behavior.
+  Keep one request only when a reasonable independent split is not possible;
+  record why. Line count prompts this analysis, not automatic fragmentation.
 
 ### S02 — Complexity must pay for itself now
 
@@ -77,6 +137,11 @@ standards or CI unless the user asks.
 - Direction: remove mechanisms with no independent responsibility. Keep an
   abstraction only when it clearly improves readability, reuse, or boundary
   clarity.
+- Deployment default: prefer a monolith over distributed services, and a
+  single-device network deployment over multiple devices. Independent module
+  responsibilities do not require independent processes or machines. Depart
+  from the default only with current evidence that it cannot satisfy an actual
+  requirement; account for network/operations cost, verification and rollback.
 
 ### S03 — One core logic and one source of truth per concern
 
@@ -99,6 +164,16 @@ standards or CI unless the user asks.
   features, required verification, or readability.
 - Boundary: when a slim side branch blocks delivery, close the side branch
   instead of holding the main delivery hostage.
+- Once a one-off operation is complete and no active consumer needs it, remove
+  its command, sole-use package, tests, build/deployment references and obsolete
+  instructions together. Keep runtime schema handling or versioned migrations
+  still needed for supported installations. Do not keep an unused command merely
+  as a possible future fallback.
+- When the task requires an invisible refactor, compare observable behavior
+  before and after: interactions, presentation, navigation/reading position,
+  loading/errors and API results. Removing functions or UI behavior is not code
+  simplification. This applies to behavior-preserving work, not a ban on later
+  product changes the user requests.
 
 ### S05 — Configuration, defaults, thresholds, and fields need justification
 
@@ -155,6 +230,15 @@ standards or CI unless the user asks.
   the original failure conditions; diagnose even a single failure.
 - Boundary: do not repeat expensive tests when the same evidence already
   exists.
+- For frontend effects, inspect the actual rendered application with browser
+  or computer use: spacing, clicks, loading and results. Unit tests or screenshots
+  without interaction cannot prove that copying, authentication or tool loading
+  actually works. Exercise the original failing conditions and distinguish real
+  services from mocks, recordings, QA identity fixtures and production ingress.
+- For cleanup, enumerate consumers across code, scripts, clients and generated
+  contracts, including string-based calls. A declaration or a test fixture alone
+  does not establish a current product consumer; failure to find a function call
+  alone does not establish that it is unused.
 
 ### S10 — Environment variables and credentials are split by destination, consumer, and sensitivity
 
