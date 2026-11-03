@@ -16,11 +16,14 @@ decisions. Check the actual implementation and its callers; do not infer the
 requirements from existing code or treat an assistant proposal as user approval.
 Separate confirmed requirements, current behavior, proposed changes and unknowns.
 
-For material architecture or cleanup, compare independently developed approaches
-from more than one angle, then cross-check the combined proposal. Look for missing
-consumers, lifecycle and failure paths, authority boundaries and unnecessary
-complexity. Revisit the proposal when evidence changes it. A code review after
-implementation does not replace this earlier design check.
+For every design, independently develop one or more alternatives in fresh
+contexts, then cross-check those alternatives and converge on a proposal.
+Independent solution development, cross-validation and convergence are the
+default, including for small designs; scale the depth and evidence to impact
+instead of skipping the independent pass. Look for missing consumers, lifecycle
+and failure paths, authority boundaries and unnecessary complexity. Revisit the
+proposal when evidence changes it. A code review after implementation does not
+replace this earlier design check.
 
 Technical explanations also need evidence: trace the named component to its
 callers, credentials, state and runtime role before making a claim. A filename or
