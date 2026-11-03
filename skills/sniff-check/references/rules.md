@@ -55,7 +55,7 @@ start a code-review delivery cycle.
   real issues and gives checkable reasons for false positives. Another model's
   disagreement is not itself a reason to reject a finding.
 - R2: use another fresh context to check the repaired complete diff against
-  original requirements, decisions, all S01-S12 and D01-D02 rules, and R1's
+  original requirements, decisions, all S01-S13 and D01-D02 rules, and R1's
   disposition. Earlier findings are leads, not authority.
 - If R2 still finds a real blocker, repair it and allow one final complete R3.
   If R3 still has a real blocker, stop delivery/merge, report it and reconsider
@@ -136,7 +136,9 @@ implemented/verified/deployed states; a plan is not a completion report.
   needs, unnecessary submodules/prechecks/persistence.
 - Direction: remove mechanisms with no independent responsibility. Keep an
   abstraction only when it clearly improves readability, reuse, or boundary
-  clarity.
+  clarity. Start with the simplest mechanism that addresses an observed
+  requirement or failure; reuse existing interfaces, state and lifecycle before
+  adding persistence or control loops.
 - Deployment default: prefer a monolith over distributed services, and a
   single-device network deployment over multiple devices. Independent module
   responsibilities do not require independent processes or machines. Depart
@@ -180,10 +182,13 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Priority: strong.
 - Signals: unexplained numeric bounds, volatile configuration hardcoded,
   environment hostnames hardcoded, silent clamping/overwriting,
-  hash/path/parameter fields with no consumer.
+  hash/path/parameter fields with no consumer; retry, backoff or policy knobs
+  without a demonstrated external consumer.
 - Direction: state the real failure, external contract, and consumer. Prefer
   honoring supplied values; fail explicitly when that is impossible. Derive
-  environment values from the target.
+  environment values from the target. Use a static constant when one policy is
+  currently correct; expose a configuration option only for a demonstrated user
+  or integration need.
 - Boundary: thresholds with a clear purpose may stay; this is not a ban on
   defaults.
 
@@ -204,15 +209,21 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Priority: strong.
 - Signals: raw URLs or display names used as identity; async state inferred
   from result presence; browser holding the only task state; writes hidden in
-  read APIs; snapshots without freshness.
+  read APIs; snapshots without freshness; artifact reuse keyed only by a commit
+  or output path when other inputs can change.
 - Direction: normalize sources and use stable keys (paths, immutable commits);
   async lifecycles are persisted and queryable; read APIs are read-only;
-  state carries a timestamp or sample-independent semantics.
+  state carries a timestamp or sample-independent semantics. For reusable
+  artifacts, combine a stable unit key with an immutable revision or digest
+  covering every input that affects the artifact. A commit is sufficient only
+  when it captures all those inputs; otherwise hash the relevant definitions
+  and dependencies. Artifact identity proves input match, not successful
+  completion.
 
 ### S08 — Shared contracts must not be held hostage by one implementation
 
 - Priority: strong.
-- Signals: one runner's required field promoted to a platform-wide
+- Signals: one implementation's required field promoted to a platform-wide
   requirement; registration requiring values only available after execution;
   the narrowest interface hiding underlying streaming; preparing to copy an
   upstream internal algorithm to fit a contract.
@@ -239,19 +250,24 @@ implemented/verified/deployed states; a plan is not a completion report.
   contracts, including string-based calls. A declaration or a test fixture alone
   does not establish a current product consumer; failure to find a function call
   alone does not establish that it is unused.
+- For reliability work, map each proposed mechanism to observed failures and
+  the outcome it changes. Check whether existing mechanisms already cover the
+  failure; new machinery without a mapped failure or observable improvement is
+  not evidence of increased reliability.
 
 ### S10 — Environment variables and credentials are split by destination, consumer, and sensitivity
 
 - Priority: strong.
-- Signals: runner/Harbor/agent-sandbox sharing undemuxed env; classifying by
-  TOKEN name rather than consumer; platform orchestration tools exposed to
-  the evaluated agent; user keys baked into images.
+- Signals: orchestrator, execution runtime and workload sharing undemuxed env;
+  classifying secrets by variable-name suffix rather than consumer;
+  control-plane tools exposed to an untrusted workload; user keys baked into
+  images.
 - Direction: every variable has an explicit destination, consumer, and
   sensitivity; validate, redact, and assemble separately; unknown
-  destinations are not forwarded by default; platform and agent credentials
-  are separated; user run identities and directories are isolated. When a
-  configuration payload is passed through an environment variable, check its
-  size against the transport's limits (per-string ~128 KiB, argv+env
+  destinations are not forwarded by default; control-plane and workload
+  credentials are separated; user run identities and directories are isolated.
+  When a configuration payload is passed through an environment variable, check
+  its size against the transport's limits (per-string ~128 KiB, argv+env
   ~2 MiB, and platform-specific limits such as CI variables or
   ConfigMap/Secret ~1 MiB); for large or unbounded inputs, use a file or a
   structured spec instead of an env var.
@@ -279,6 +295,30 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Direction: names describe the real product/module/lifecycle; directories
   follow conceptual responsibility and limit cross-module dependencies; pure
   refactors preserve behavior and get real regression coverage.
+
+### S13 — Durable execution resumes from verified stages
+
+- Priority: strong.
+- Signals: a partial failure reruns the whole operation; file existence,
+  process exit or reward is treated as universal success; successful outputs
+  are regenerated; a reporting failure reruns execution; status is inferred
+  through global text searches; error branches differ without changing the
+  recovery action.
+- Direction: split side-effecting work into meaningful durable stages and
+  define consumer-visible success evidence for each. Persist stage outputs and
+  artifact identity, resume at the earliest stage lacking proof, and skip only
+  stages whose success is independently verified. Retry only the failed stage
+  whose side effects are safe to repeat.
+- Parse structured API status/error codes and server backpressure signals
+  before logs. Group causes by recovery action, such as rate limiting,
+  transient dependency failure, execution failure and reporting failure. Keep
+  the taxonomy only as detailed as the actions, bound retries and classify
+  unknown errors explicitly.
+- Boundary: durability means correct recovery, not maximal checkpointing.
+  Reuse existing state and the simplest static policy; add no configuration
+  knob or persistence layer without a current consumer. Success criteria depend
+  on the stage contract; a score or exit status may be evidence, but is not a
+  universal definition.
 
 ## Special Rules
 
