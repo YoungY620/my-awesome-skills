@@ -142,6 +142,19 @@ implemented/verified/deployed states; a plan is not a completion report.
   clarity. Start with the simplest mechanism that addresses an observed
   requirement or failure; reuse existing interfaces, state and lifecycle before
   adding persistence or control loops.
+- Do not optimize in advance. Every optimization names the present problem it
+  answers — an observed failure, a measured cost, or a bound the contract
+  actually gives. Without one, delete it. Then show why the alternatives fail:
+  the straightforward implementation either cannot satisfy the need at all, or
+  satisfies it at a higher cost, and state that comparison. Account for the
+  costs the optimization itself adds, across at least correctness and new
+  failure modes, readability and review surface, maintenance and migration,
+  test surface, dependencies and their versions, resource and financial cost,
+  operability (configuration, monitoring, debuggability), and contract or
+  compatibility impact. Prefer the smallest change that removes the problem; a
+  measured number beats a predicted one.
+- Review question: which present problem does this pay for, why does the simple
+  version not do, and what does this cost elsewhere?
 - Deployment default: prefer a monolith over distributed services, and a
   single-device network deployment over multiple devices. Independent module
   responsibilities do not require independent processes or machines. Depart
@@ -370,7 +383,9 @@ an implementation approach:
 ## Scope Boundaries
 
 - Well-justified abstractions, defaults, thresholds, caches, compatibility
-  layers, or platform changes are allowed.
+  layers, or platform changes are allowed, but an optimization must satisfy
+  S02: a present problem, a comparison showing the alternatives cannot do or
+  cost more, and an explicit account of the costs it introduces.
 - The request split preference is explicit: indivisible small requests by
   default, separate requests for separate features, no all-in-one; do not
   re-expand a request on "cohesion" grounds.
