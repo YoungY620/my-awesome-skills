@@ -4,5 +4,6 @@ A curated collection of reusable skills for AI coding agents. Each skill lives i
 
 ## Skills
 
+- **[problem-diagnosis](skills/problem-diagnosis/)** — Evidence-driven system diagnosis: preserve original failures, explain anomalous distributions, test multiple hypotheses with instrumentation and controlled reproduction, then verify fixes across the original failure set, with `diagnose` / `learn` workflows.
 - **[sniff-check](skills/sniff-check/)** — Design, PR/MR review and preference-learning standard: independent cross-validation, small requests, justified complexity, credential boundaries and observable verification, with `plan` / `create` / `merge` / `review` / `learn` workflows.
 - **[course-textbook-builder](skills/course-textbook-builder/)** — Turn a course's full materials (slides, lecture videos/audio, transcripts, readings, assignments and solutions) into a high-density online textbook in the style of textbook.cs161.org: mdBook, bilingual, deployed to GitHub Pages, with real-render verification.
