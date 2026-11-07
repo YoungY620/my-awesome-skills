@@ -137,7 +137,8 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Direction: split into indivisible small requests by default. Features in the
   same roadmap still get separate requests when independently deliverable.
   Changes required for one feature stay together so it builds, tests, and reads
-  cleanly.
+  cleanly. Within one request, each commit likewise focuses on a single change
+  point.
 - Review question: does this request solve exactly one problem? Could any part
   ship independently? If yes, why is it here?
 - Boundary: do not split mechanically by file or line count. Do not shred a
