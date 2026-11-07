@@ -394,6 +394,26 @@ signals, direction, applicable boundaries, and evidence.
       require gain_vs(control) > 0 and cost_reported_next_to_gain
   ```
 
+### C03 — Visible catalogues are disclosed on demand; delegation is itself a tool
+
+- Status: candidate; emphasis: 1; independent scenarios: 1 (same source as
+  C02).
+- Signals: unbounded growth of the tool/skill listing; nested multi-level
+  indexes; delegating to a sub-agent when the task did not call for it.
+- Direction: count the catalogue before adding structure; up to roughly ten
+  entries, show all; above that use a flat one-line index with bodies loaded
+  on demand; nested indexes roughly halve success, avoid them; treat
+  "delegate" as a tool that needs an explicit usage rule.
+- Boundary: not binding when the catalogue is small or routing accuracy is
+  already measured.
+- Example:
+
+  ```text
+  if len(catalogue) <= 10: show_all()
+  else: flat_one_line_index + load_body_on_demand()
+  delegate = tool(needs_usage_rule)
+  ```
+
 ## Continuous Learning
 
 When the user explicitly corrects, rejects, reworks, or repeatedly emphasizes
