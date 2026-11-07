@@ -66,6 +66,11 @@ start a code-review delivery cycle.
 - Reviewers are read-only: no edits, nested reviewers, PR writes or merges.
   Supply the repo, head/base, full diff, rule and source versions, requirements
   and test evidence. Do not give them the author's generation reasoning as facts.
+- The checking seat is a structural choice: the reviewer model must not be
+  notably weaker than the author on the reviewed task type — a weaker reviewer
+  can drag a stronger writer down. Review scope and inputs are fixed by this
+  section; the author must not trim the reviewer's brief or inputs to pass,
+  and an approver the author spins up ad hoc is not independent review.
 - Keep findings, evidence, impact and disposition. A successful process exit,
   empty output, vote or "approve" is not proof of review. If independent review
   is unavailable or authentication fails, report the gap.
