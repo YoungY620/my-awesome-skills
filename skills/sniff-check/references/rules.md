@@ -379,13 +379,15 @@ signals, direction, applicable boundaries, and evidence.
 - Signals: a claimed gain from multi-agent setups, extra review rounds, memory
   systems or split reading where the control ran with a smaller budget; "more
   tokens spent" reported as "the structure works".
-- Direction: run an equal-budget monolith control (single agent, single pass,
-  full transcript) and report gain and cost side by side; a gain the control
-  matches is a budget effect, not a structural one. Keep the structure only
-  for what the control cannot have: a clean context, a different model, an
-  external signal the author did not write, or a read the window cannot hold.
-- Boundary: structures with proven capacity or independence gains are fine;
-  the target is uncontrolled claims.
+- Direction: run an equal-budget (tokens and cost) monolith control — single
+  agent, single pass, full transcript — and report gain and cost side by side.
+  A gain the control matches is a budget effect, not a structural one; a
+  structural gain must come from what the equal-budget control cannot have: a
+  clean context, a different model, an external signal the author did not
+  write, or a read the window cannot hold.
+- Boundary: proven capacity or independence gains are exactly the acceptable
+  kind, since they are things the control cannot have; the target is
+  uncontrolled claims.
 - Example:
 
   ```text
@@ -402,8 +404,8 @@ signals, direction, applicable boundaries, and evidence.
   indexes; delegating to a sub-agent when the task did not call for it.
 - Direction: count the catalogue before adding structure; up to roughly ten
   entries, show all; above that use a flat one-line index with bodies loaded
-  on demand; nested indexes measurably reduce hit rates, avoid them; treat
-  "delegate" as a tool that needs an explicit usage rule.
+  on demand; nested indexes add a level of guess-the-branch, avoid them;
+  treat "delegate" as a tool that needs an explicit usage rule.
 - Boundary: not binding when the catalogue is small, or when routing accuracy
   has been measured and shown adequate on real tasks.
 - Example:
