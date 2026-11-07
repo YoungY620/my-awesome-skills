@@ -264,8 +264,7 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Signals: only internal functions/mocks/old images exercised; judging by exit
   codes/completed/reward/approve; configuration present but not proven
   delivered; failing tests or open threads; a tool or script that returns an
-  error as text with a zero exit code, so the failure reads as success and a
-  retry or resume records the error as a result.
+  error as text with a zero exit code, so the failure reads as success.
 - Direction: public-API black-box tests with real agents/LLMs/judges, final
   code and images, raw logs/wire/artifacts/scores/upload evidence; reproduce
   the original failure conditions; diagnose even a single failure.
