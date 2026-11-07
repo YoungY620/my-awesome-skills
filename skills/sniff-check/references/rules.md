@@ -66,11 +66,15 @@ start a code-review delivery cycle.
 - Reviewers are read-only: no edits, nested reviewers, PR writes or merges.
   Supply the repo, head/base, full diff, rule and source versions, requirements
   and test evidence. Do not give them the author's generation reasoning as facts.
-- The checking seat is a structural choice: the reviewer model must not be
+- Reviewer selection is a structural choice: the reviewer model must not be
   notably weaker than the author on the reviewed task type — a weaker reviewer
-  can drag a stronger writer down. Review scope and inputs are fixed by this
-  section; the author must not trim the reviewer's brief or inputs to pass,
-  and an approver the author spins up ad hoc is not independent review.
+  can reduce the quality of a stronger author's work. Judge capability from
+  published comparisons or the finding quality of earlier rounds; when it is
+  unknown, state that assumption in the delivery record. Review scope and
+  inputs are fixed by this section: the author must not trim the reviewer's
+  brief or inputs to pass and must not direct its conclusion. An
+  author-launched reviewer qualifies when it meets the independence rules
+  above; an approver the author controls does not.
 - Record the reviewer model and version of each round in the delivery record.
   Review conclusions hold per model and date; after a reviewer-model upgrade,
   spot-check the key assumptions instead of inheriting old conclusions.
