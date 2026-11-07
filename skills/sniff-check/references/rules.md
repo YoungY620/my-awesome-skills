@@ -78,6 +78,11 @@ start a code-review delivery cycle.
 - Record the reviewer model and version of each round in the delivery record.
   Review conclusions hold per model and date; after a reviewer-model upgrade,
   spot-check the key assumptions instead of inheriting old conclusions.
+- Briefs sent to reviewers and other dispatched agents use fixed fields: task,
+  scope, evidence locations (paths or IDs), and decision criteria; the receiver
+  may return "need more information" instead of forcing a conclusion. Hand over
+  re-readable pointers (paths, IDs); a prose conclusion does not replace the
+  underlying material.
 - Keep findings, evidence, impact and disposition. A successful process exit,
   empty output, vote or "approve" is not proof of review. If independent review
   is unavailable or authentication fails, report the gap.
