@@ -71,6 +71,9 @@ start a code-review delivery cycle.
   can drag a stronger writer down. Review scope and inputs are fixed by this
   section; the author must not trim the reviewer's brief or inputs to pass,
   and an approver the author spins up ad hoc is not independent review.
+- Record the reviewer model and version of each round in the delivery record.
+  Review conclusions hold per model and date; after a reviewer-model upgrade,
+  spot-check the key assumptions instead of inheriting old conclusions.
 - Keep findings, evidence, impact and disposition. A successful process exit,
   empty output, vote or "approve" is not proof of review. If independent review
   is unavailable or authentication fails, report the gap.
