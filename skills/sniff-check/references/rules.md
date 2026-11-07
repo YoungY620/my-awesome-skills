@@ -372,6 +372,28 @@ a general principle.
 Each candidate records: status, emphasis count, independent scenarios,
 signals, direction, applicable boundaries, and evidence.
 
+### C02 — Structural or process gains need an equal-budget control
+
+- Status: candidate; emphasis: 1; independent scenarios: 1 (the user endorsed
+  the published evidence and adopted it as a review standard).
+- Signals: a claimed gain from multi-agent setups, extra review rounds, memory
+  systems or split reading where the control ran with a smaller budget; "more
+  tokens spent" reported as "the structure works".
+- Direction: the control is the monolith (single agent, single pass, full
+  transcript) at equal token budget; report gain and cost side by side; keep a
+  structure only when it buys what an equal-budget monolith cannot have: a
+  clean context, a different model, an external signal the author did not
+  write, or a read the window cannot hold.
+- Boundary: structures with proven capacity or independence gains are fine;
+  the target is uncontrolled claims.
+- Example:
+
+  ```text
+  claim(structure_gain):
+      control = monolith(budget = structure.total_budget)
+      require gain_vs(control) > 0 and cost_reported_next_to_gain
+  ```
+
 ## Continuous Learning
 
 When the user explicitly corrects, rejects, reworks, or repeatedly emphasizes
