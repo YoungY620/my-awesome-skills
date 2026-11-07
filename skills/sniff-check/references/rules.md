@@ -382,6 +382,50 @@ a general principle.
 Each candidate records: status, emphasis count, independent scenarios,
 signals, direction, applicable boundaries, and evidence.
 
+### C02 — Structural or process gains need an equal-budget control
+
+- Status: candidate; emphasis: 1; independent scenarios: 1 (the user endorsed
+  the published evidence and adopted it as a review standard).
+- Signals: a claimed gain from multi-agent setups, extra review rounds, memory
+  systems or split reading where the control ran with a smaller budget; "more
+  tokens spent" reported as "the structure works".
+- Direction: run an equal-budget (tokens and cost) monolith control — single
+  agent, single pass, full transcript — and report gain and cost side by side.
+  A gain the control matches is a budget effect, not a structural one; a
+  structural gain must come from what the equal-budget control cannot have: a
+  clean context, a different model, an external signal the author did not
+  write, or a read the window cannot hold.
+- Boundary: proven capacity or independence gains are exactly the acceptable
+  kind, since they are things the control cannot have; the target is
+  uncontrolled claims.
+- Example:
+
+  ```text
+  claim(structure_gain):
+      control = monolith(budget = structure.total_budget)
+      require gain_vs(control) > 0 and cost_reported_next_to_gain
+  ```
+
+### C03 — Visible catalogues are disclosed on demand; delegation is itself a tool
+
+- Status: candidate; emphasis: 1; independent scenarios: 1 (the user endorsed
+  the published evidence and adopted it as a review standard).
+- Signals: unbounded growth of the tool/skill listing; nested multi-level
+  indexes; delegating to a sub-agent when the task did not call for it.
+- Direction: count the catalogue before adding structure; up to roughly ten
+  entries, show all; above that use a flat one-line index with bodies loaded
+  on demand; nested indexes add a level of guess-the-branch, avoid them;
+  treat "delegate" as a tool that needs an explicit usage rule.
+- Boundary: not binding when the catalogue is small, or when routing accuracy
+  has been measured and shown adequate on real tasks.
+- Example:
+
+  ```text
+  if len(catalogue) <= 10: show_all()
+  else: flat_one_line_index + load_body_on_demand()
+  delegate = tool(needs_usage_rule)
+  ```
+
 ## Continuous Learning
 
 When the user explicitly corrects, rejects, reworks, or repeatedly emphasizes
