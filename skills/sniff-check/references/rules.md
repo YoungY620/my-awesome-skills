@@ -401,6 +401,12 @@ an implementation approach:
    contradictory old wording.
 6. Distinguish one-off project constraints from stable preferences; do not
    generalize a local decision into an absolute ban.
+7. Before delivery, verify that the learning points of this round were actually
+   written to `references/observations.md`; memory-style writes can fail
+   silently, so intending to record is not a record.
+8. A rule's derivation sources live in `references/observations.md`; when a
+   source is retracted or invalidated, or the environment changes, rebuild the
+   rule instead of trusting it merely because it was used recently.
 
 ## Scope Boundaries
 
