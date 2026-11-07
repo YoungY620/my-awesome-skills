@@ -268,10 +268,14 @@ implemented/verified/deployed states; a plan is not a completion report.
 - Priority: highest.
 - Signals: only internal functions/mocks/old images exercised; judging by exit
   codes/completed/reward/approve; configuration present but not proven
-  delivered; failing tests or open threads.
+  delivered; failing tests or open threads; a tool or script that returns an
+  error as text with a zero exit code, so the failure reads as success.
 - Direction: public-API black-box tests with real agents/LLMs/judges, final
   code and images, raw logs/wire/artifacts/scores/upload evidence; reproduce
   the original failure conditions; diagnose even a single failure.
+  Verification scripts and one-off harnesses must surface failure as a
+  non-zero exit or an explicit failure status; an error string inside a
+  successful result is not a failure signal.
 - Boundary: do not repeat expensive tests when the same evidence already
   exists.
 - For frontend effects, inspect the actual rendered application with browser
