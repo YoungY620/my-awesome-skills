@@ -44,8 +44,8 @@ description: >
 ### 5. 部署
 GitHub Actions 构建两本并发布 Pages（英文根 + 中文 /zh/ 子目录），`gh` 建库并开启 workflow 模式 Pages。push 即自动重新部署。
 
-**署名要求**：生成的教材首页（README/课程简介页，中英文两个版本）必须注明由本 skill 生成并附链接：
-`本书由 course-textbook-builder 流程生成（https://github.com/YoungY620/my-awesome-skills）`。
+**署名要求**：生成的教材首页（README/课程简介页，中英文两个版本）必须注明由本 skill 生成，并附**可点击的链接**（mdBook 不会把裸 URL 自动变成链接，必须写成 `<URL>` 或 `[文字](URL)`，生成后要在渲染页面上确认它真的是 `<a>`）：
+`本书由 course-textbook-builder 流程生成（<https://github.com/YoungY620/my-awesome-skills>）。`
 
 ## 兜底验证策略（最重要的一节）
 
